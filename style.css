@@ -1,0 +1,152 @@
+html{
+    font-size: 62.5%; /* 16px * 62,5 = 10px = 1rem -> better in different types of browsers, but why? */
+    box-sizing: border-box; /* Easy to define margin and padding properties for the HTML elements inside the page */
+}
+
+body{
+    font: 1.6rem Helvetica;
+    height: 100vh;
+    margin: 0; /* Correction for the default maring of the body */
+}
+
+.grid-container{
+    display: grid;
+    grid-template-areas: 
+    "header"
+    "main"
+    "footer";
+    grid-template-columns: 1fr;
+    grid-template-rows: 5rem 1fr 5rem;
+    height: 100%;
+}
+
+.header{
+    grid-area: "header";
+    display: flex;
+    justify-content: space-between;
+    background-color: #203040;
+    color: #fff;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+.logo a{
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Define the style for all anchor tags inside the defined class */
+.header-links a{
+    color: #fff;
+}
+
+/* Remove all decoration from the anchor tags */
+a{
+    text-decoration: none;
+}
+/* Change the color of the links on the hover above them */
+a:hover{
+    color: #ff8000;
+}
+
+
+.main{
+    grid-area: "main";
+}
+
+.footer{
+    background-color: #203040;
+    color: #fff;
+    grid-area: "footer";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ /* Home Screen */
+.products{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.products li{
+    list-style-type: none;
+    padding: 0;
+        /* flex_grow  flex_shrink width of the elements */
+    flex: 0 1 34rem;
+    margin: 1rem;
+    height: 50rem;
+    border-bottom: .1rem #c0c0c0;
+}
+
+.product{
+    display: flex;
+    /* Change the orientation of the flex display */
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.product-name{
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.product-brand{
+    font-size: 1.2rem;
+    color: #808080;
+}
+
+.product-price{
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.product-image{
+    max-width: 34rem;
+    max-height: 34rem;
+}
+
+.product-rating{
+    margin-bottom: 1rem;
+}
+
+/* Sidebar */
+.logo button{
+    font-size: 3rem;
+    padding: .5rem;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.sidebar{
+    /* Keep the sidebar fixed on the page */
+    position: fixed;
+    /* Keep the sidebar hidden from the screen (Pushes the div to the edge of the window) */
+    transform: translateX(-30rem);
+    width: 30rem;
+    background: #f0f0f0;
+    height: 100%;
+}
+
+.sidebar.open{
+    transform: translateX(0);
+}
+
+.sidebar-close-button{
+    border-radius: 50%;
+    border: .1rem #000 solid;
+    width: 3rem;
+    height: 3rem;
+    padding: .5rem;
+    font-size: 2rem;
+    padding-top: 0;
+    position: absolute;
+    right: 1rem;
+    top: 1.5rem;
+}
