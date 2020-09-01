@@ -7,7 +7,10 @@ import {
     PRODUCT_DETAILS_FAIL,
     PRODUCT_SAVE_REQUEST,
     PRODUCT_SAVE_SUCCESS,
-    PRODUCT_SAVE_FAIL
+    PRODUCT_SAVE_FAIL,
+    PRODUCT_DELETE_REQUEST,
+    PRODUCT_DELETE_SUCCESS,
+    PRODUCT_DELETE_FAIL
 } from "../constants/productConstants";
 
 import axios from "axios"
@@ -29,6 +32,7 @@ const saveProduct = (product) => async (dispatch, getState) => {
             payload: product
         })
         const {userSignin:{userInfo}} = getState()
+    
         // The id of the product was sent with it
         if(product._id){
             const {data} = await axios.put(`/api/products/${product._id}`, product, {
@@ -60,6 +64,31 @@ const saveProduct = (product) => async (dispatch, getState) => {
     }
 }
 
+const deleteProduct = (productId) => async (dispatch, getState) => {
+    try{
+        dispatch({
+            type: PRODUCT_DELETE_REQUEST,
+            payload: productId
+        }) // Ask the server about the product
+        const {userSignin:{userInfo}} = getState()
+        const {data} = await axios.delete(`/api/products/${productId}`, {
+            headers: {
+                'Authorization': `Bearer ${userInfo.token}`
+            }
+        }) // Wait until the response comes
+        dispatch({
+            type: PRODUCT_DELETE_SUCCESS,
+            payload: data,
+            success: true
+        }) // Dispatch the action that signalizes that the request was sucessfull
+    }catch(e){
+        dispatch({
+            type: PRODUCT_DELETE_FAIL,
+            payload: e.message
+        }) // Dispatch the action with the error that occured
+    }
+}
+
 const detailsProduct = (productId) => async (dispatch) => {
     try{
         dispatch({
@@ -80,4 +109,9 @@ const detailsProduct = (productId) => async (dispatch) => {
     }
 }
 
-export {listProducts, detailsProduct, saveProduct}
+export {
+    listProducts,
+    detailsProduct,
+    saveProduct,
+    deleteProduct
+}

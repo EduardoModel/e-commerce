@@ -1,6 +1,6 @@
 import express from "express"
 import Product from '../models/productModel'
-import { getToken } from "../util";
+import { getToken, authenticate, isAdmin } from "../util";
 
 const router = express.Router()
 
@@ -10,8 +10,24 @@ router.get('/', async (req, res) => {
     res.send(products)
 })
 
+// Get a product inside the database via the id
+router.get('/:id', async (req, res) => {
+    try {
+        const productId = req.params.id
+        const product = await Product.findById(productId)
+        if(product){
+            return res.send(product)
+        }
+        throw "Product not found"
+    } catch (error) {
+        return res.status(403).send({
+            error: error.message
+        })
+    }
+})
+
 // Save a product inside the database
-router.post('/', async (req, res) => {
+router.post('/', authenticate , isAdmin, async (req, res) => {
     const product = new Product({
         name: req.body.name,
         price: req.body.price,
@@ -35,23 +51,8 @@ router.post('/', async (req, res) => {
     })
 })
 
-// Get a product inside the database via the id
-router.get('/:id', async (req, res) => {
-    try {
-        const productId = req.params.id
-        const product = await Product.findById(productId)
-        if(product){
-            return res.send(product)
-        }
-        throw "Product not found"
-    } catch (error) {
-        return res.status(403).send({
-            error: error.message
-        })
-    }
-})
-
-router.put('/:id', async (req, res) => {
+// Update a product inside the database via the id
+router.put('/:id', authenticate , isAdmin, async (req, res) => {
     try {
         const productId = req.params.id
         const product = await Product.findById(productId)
@@ -79,6 +80,15 @@ router.put('/:id', async (req, res) => {
             error: error.message
         })
     }
+})
+
+router.delete('/:id', authenticate , isAdmin, async (req,res) => {
+    const productId = req.params.id
+    const deletedProduct = await Product.findByIdAndDelete(productId)
+    if(deletedProduct){
+        return res.send({message: `Product with the id: ${productId} was deleted`})
+    }
+    return res.status(403).send({error: `Product with the id: ${productId} was not successfuly deleted`})
 })
 
 export default router

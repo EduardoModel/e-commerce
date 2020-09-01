@@ -10,10 +10,12 @@ const SigninScreen = (props) => {
     const {loading, userInfo, error} = userSignin
     const dispatch = useDispatch()
 
+    const redirect = props.location.search ? props.location.search.split("=")[1] : '/'
+
     useEffect(() => {
         if(userInfo){
-            // If the login process was successful, redirect the user to the home screen
-            props.history.push('/') // This line of code will run
+            // If the login process was successful, redirect the user to redirect path
+            props.history.push(redirect)
         }
         return () => {
             //
@@ -55,7 +57,7 @@ const SigninScreen = (props) => {
                         New to little Shop?
                     </li>
                     <li>
-                        <Link to="/register" className="button secondary text-center">Create a new account</Link>
+                        <Link to={redirect === '/' ? "/register" : `/register?redirect=${redirect}`} className="button secondary text-center">Create a new account</Link>
                     </li>
                 </ul>
             </form>

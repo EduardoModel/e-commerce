@@ -11,7 +11,7 @@ const signin = (email, password) => async (dispatch) => {
         }
     })
     try{
-        const data = await Axios.post('/api/users/signin', {
+        const {data} = await Axios.post('/api/users/signin', {
             email,
             password
         })
@@ -41,7 +41,7 @@ const register = (name ,email, password, rePassword) => async (dispatch) => {
         }
     })
     try{
-        const data = await Axios.post('/api/users/register', {
+        const {data} = await Axios.post('/api/users/register', {
             name,
             email,
             password,

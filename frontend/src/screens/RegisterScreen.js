@@ -11,11 +11,13 @@ const RegisterScreen = (props) => {
     const userRegister = useSelector(state => state.userRegister)
     const {loading, userInfo, error} = userRegister
     const dispatch = useDispatch()
+    
+    const redirect = props.location.search ? props.location.search.split("=")[1] : '/'
 
     useEffect(() => {
         if(userInfo){
             // If the login process was successful, redirect the user to the home screen
-            props.history.push('/') // This line of code will run
+            props.history.push(redirect) // This line of code will run
         }
         return () => {
             //
@@ -69,7 +71,7 @@ const RegisterScreen = (props) => {
                         Already hava an account?
                     </li>
                     <li>
-                        <Link to="/signin" className="button secondary text-center">Signin</Link>
+                        <Link to={redirect === '/' ? "signin" : `signin?redirect=${redirect}`}  className="button secondary text-center">Signin</Link>
                     </li>
                 </ul>
             </form>

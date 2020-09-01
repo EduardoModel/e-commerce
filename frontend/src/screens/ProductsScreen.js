@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import {useSelector, useDispatch} from 'react-redux'
 import {Link} from 'react-router-dom'
-import { Products, saveProduct, listProducts } from "../actions/productActions";
+import { Products, saveProduct, listProducts, deleteProduct } from "../actions/productActions";
 
 const ProductsScreen = (props) => {
     const [modalVisible, setModalVisible] = useState(false)
@@ -16,11 +16,18 @@ const ProductsScreen = (props) => {
     const productList = useSelector(state => state.productList)
     const {loading, products, error} = productList
 
-    const productSave = useSelector(state => state.productSave)
+    const productDelete = useSelector(state => state.productDelete) 
+    const {
+        loading: loadingDelete,
+        success: successDelete,
+        error: errorDelete} = productDelete
+
+    const productSave = useSelector(state => state.productSave) 
     const {
         loading: loadingSave,
         success: successSave,
         error: errorSave} = productSave
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -33,7 +40,7 @@ const ProductsScreen = (props) => {
         return () => {
             //
         }
-    }, [successSave]) // If user info changes 
+    }, [successSave, successDelete]) // If user info changes 
 
     const openModal = (product) => {
         if(modalVisible){
@@ -50,6 +57,10 @@ const ProductsScreen = (props) => {
             setCountInStock(product.countInStock)
             setDescription(product.description)
         }
+    }
+
+    const deleteHandler = (product) => {
+        dispatch(deleteProduct(product._id))
     }
 
     const submitHandler = (e) => {
@@ -70,7 +81,7 @@ const ProductsScreen = (props) => {
         <div className="content content-margined">
             <div className="product-header">
                 <h3>Products</h3>
-                <button onClick={() => openModal({})}>Create product</button>
+                <button className="button primary" onClick={() => openModal({})}>Create product</button>
             </div>
             {modalVisible && 
                 <div className="form">
@@ -131,13 +142,12 @@ const ProductsScreen = (props) => {
                         <li>
                             <button type="submit" onClick={() => setModalVisible(false)} className="button secondary">Cancel</button>
                         </li>
-                        {successSave && id ? <div>Product updated successfuly :D</div> : <div>Product created successfuly :D</div> }
                     </ul>
                 </form>
             </div>
             }
             <div className="product-list">
-                <table>
+                <table className="table">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -150,15 +160,16 @@ const ProductsScreen = (props) => {
                     </thead>
                     <tbody>
                         {products.map(product => (
-                            <tr>
+                            <tr key={product._id}>
                                 <td>{product._id}</td>
                                 <td>{product.name}</td>
                                 <td>{product.price}</td>
                                 <td>{product.category}</td>
                                 <td>{product.brand}</td>
                                 <td>
-                                    <button onClick={() => openModal(product)}>Edit</button>
-                                    <button>Delete</button>
+                                    <button className="button" onClick={() => openModal(product)}>Edit</button>
+                                    {' '}
+                                    <button className="button" onClick={() => deleteHandler(product)}>Delete</button>
                                 </td>
                             </tr>
                         ))}
