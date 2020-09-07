@@ -6,6 +6,7 @@
  import bodyParser from 'body-parser'
  import userRoute from './routes/userRoute'
  import productRoute from './routes/productRoute'
+ import orderRoute from './routes/orderRoute';
 
  // Fetch the enviroments variables from the file and set them into the code 
  dotenv.config()
@@ -28,6 +29,12 @@
  app.use("/api/users", userRoute)
 
  app.use("/api/products", productRoute)
+
+ app.use("/api/orders", orderRoute)
+
+ app.get("/api/config/paypal", async (req, res) => {
+     res.send(config.PAYPAL_CLIENT_ID)
+ })
 
 //  app.get('/api/products', (req, res) => {
 //     res.send(data.products)

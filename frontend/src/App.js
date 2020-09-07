@@ -11,6 +11,7 @@ import ProductsScreen from './screens/ProductsScreen';
 import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderScreen from './screens/OrderScreen';
 
 function App() {
     const userSignin = useSelector(state => state.userSignin)
@@ -35,7 +36,7 @@ function App() {
                         <Link to="/">littleShop</Link>
                     </div>
                     <div className="header-links">
-                        <a href="cart.html">Shopping Cart</a>
+                        <a href="/cart">Shopping Cart</a>
                         {userInfo ?
                         <Link to='/profile'>{userInfo.name}</Link> :
                         <Link to='/signin'>Sign In</Link>
@@ -59,6 +60,7 @@ function App() {
                 <main className="main">
                     <div className="content">
                         <Route path="/products/:id" exact={true} component={ProductScreen}/>
+                        <Route path="/order/:id" exact={true} component={OrderScreen}/>
                         <Route path="/products" exact={true} component={ProductsScreen}/>
                         <Route path="/payment" component={PaymentScreen}/>
                         <Route path="/place-order" component={PlaceOrderScreen}/>

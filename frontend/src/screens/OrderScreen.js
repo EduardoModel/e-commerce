@@ -1,85 +1,57 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addToCart, removeFromCart } from '../actions/cartActions';
 import { Link } from 'react-router-dom'
-import CheckoutSteps from '../components/CheckoutSteps';
-import { createOrder } from '../actions/orderActions';
+import { detailsOrder } from '../actions/orderActions';
 
-function PlaceOrderScreen(props){
-    // Retrieve the cart from the global state
-    const cart = useSelector(state => state.cart)
-    const orderCreate = useSelector(state => state.orderCreate)
-    const {
-        loading,
-        success,
-        error,
-        order
-    } = orderCreate
-
-    // Take the items inside the cart
-    const {
-        cartItems,
-        shipping,
-        payment
-    } = cart
-
-    // If the shipping object isn't defined
-    if(!shipping.address){
-        props.history.push('/shipping')
-    }
-    // If the payment object isn't defined
-    else if(!payment.paymentMethod){
-        props.history.push('/payment')
-    }
-
-    const itemsPrice = cartItems.reduce((a, c) => a + c.price*c.quantity, 0)
-    const shippingPrice = itemsPrice > 0 ? 0 : 10
-    const taxPrice = Math.round(0.15 * itemsPrice)
-    const totalPrice = itemsPrice + shippingPrice + taxPrice
-
+function OrderScreen(props){
     const dispatch = useDispatch()
 
-    const checkoutHandler = () => {
-        props.history.push("/signin?redirect=shipping")
-    }
-
-    const placeOrderHandler = () => {
-        // Create an order
-        dispatch(createOrder({
-            orderItems: cartItems,
-            shipping,
-            payment,
-            itemsPrice,
-            shippingPrice,
-            taxPrice,
-            totalPrice
-        }))
-    }
-
     useEffect(() => {
-        if(success){
-            props.history.push(`/order/${order._id}`)
+        dispatch(detailsOrder(props.match.params.id))
+        return () => {
         }
-    }, [success]) // Run this event after the info was loaded inside the DOM
+    }, [])
+
+    const orderDetails = useSelector(state => state.orderDetails)
+    
+    const {
+        loading,
+        order,
+        error
+    } = orderDetails
+
+    const payHandler = () => {
+
+    }
 
     return (
+        loading ? <div>Loading...</div> :
+        error ? <div>{error}</div> :
         <div>
-            <CheckoutSteps step1 step2 step3 step4/>
             <div className="place-order">
                 <div className="place-order-info">
                     <div>
                         <h3>Shipping info</h3>
                         <div>
-                            {cart.shipping.address}, {cart.shipping.city},
-                            {cart.shipping.postalCode}, {cart.shipping.country}
+                            {order.shipping.address}, {order.shipping.city},
+                            {order.shipping.postalCode}, {order.shipping.country}
                         </div>
                     </div>
-                    
+                    <div>
+                        {
+                            order.isDelivered ? `Delivered at: ${order.deliveredAt}` : 'Not delivered'
+                        }
+                    </div>
                     <div>
                         <h3>Payment method</h3>
                         <div>
-                            {cart.payment.paymentMethod}
+                            {order.payment.paymentMethod}
                         </div>
+                    </div>
+                    <div>
+                        {
+                            order.payment.isPaid ? `Paid at ${order.payment.paidAt}` : 'Not paid' 
+                        }
                     </div>
                     <div>
                         <ul className="cart-list-container">
@@ -92,9 +64,9 @@ function PlaceOrderScreen(props){
                                 </div>
                             </li>
                             {
-                                cartItems.length === 0 
+                                order.orderItems.length === 0 
                                 ? <div>Cart is empty</div> : 
-                                cartItems.map((item) => 
+                                order.orderItems.map((item) => 
                                     <li key={item.product}>
                                         <div className="cart-image">
                                             <img src={item.image} alt="Product"/>
@@ -121,33 +93,32 @@ function PlaceOrderScreen(props){
                 <div className="place-order-action">
                     <ul>
                         <li>
-                            <button className="button primary full-width" onClick={placeOrderHandler}>Place Order</button>
+                            <button className="button primary full-width" onClick={payHandler}>Pay now</button>
                         </li>
                         <li>
                             <h3>Order summary</h3>
                         </li>
                         <li>
                             <div>Items</div>
-                            <div>${itemsPrice}</div>
+                            <div>${order.itemsPrice}</div>
                         </li>
                         <li>
                             <div>Shipping</div>
-                            <div>${shippingPrice}</div>
+                            <div>${order.shippingPrice}</div>
                         </li>
                         <li>
                             <div>Tax</div>
-                            <div>${taxPrice}</div>
+                            <div>${order.taxPrice}</div>
                         </li>
                         <li>
                             <div>Order total</div>
-                            <div>${totalPrice}</div>
+                            <div>${order.totalPrice}</div>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        
     )
 }
 
-export default PlaceOrderScreen
+export default OrderScreen
