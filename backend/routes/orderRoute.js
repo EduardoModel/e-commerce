@@ -45,4 +45,41 @@ router.post('/', authenticate, async (req, res) => {
     }
 })
 
+
+router.put('/:id/pay', authenticate, async (req, res) => {
+    try {
+        const orderId = req.params.id
+        const orderToUpdate = await Order.findById(orderId)
+
+        if(orderToUpdate){
+            orderToUpdate.isPaid = true
+            orderToUpdate.paidAt = Date.now()
+            const {
+                payerID,
+                orderID,
+                paymentID
+
+            } = req.body
+            orderToUpdate.payment = {
+                paymentMethod: 'paypal',
+                paymentResult: {
+                    payerID,
+                    orderID,
+                    paymentID
+                }
+            }
+            const updatedOrder = await orderToUpdate.save()
+            return res.send({
+                message: 'Order paid sucessfuly',
+                data: updatedOrder
+            })
+        }
+        throw `The order ${orderId} was not found!`
+    } catch (error) {
+        return res.status(404).send({
+            error: error.message
+        })
+    }
+})
+
 export default router

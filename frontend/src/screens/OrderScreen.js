@@ -4,14 +4,23 @@ import { Link } from 'react-router-dom'
 import { detailsOrder, payOrder } from '../actions/orderActions';
 import PaypalButton from '../components/PaypalButton';
 
-function OrderScreen(props){
+const OrderScreen = (props) => {
     const dispatch = useDispatch()
 
+    const orderPay = useSelector(state => state.orderPay)
+    const {loading: loadingPay, success: successPay, error: errorPay } = orderPay
+
     useEffect(() => {
-        dispatch(detailsOrder(props.match.params.id))
+        if(successPay){
+            props.history.push("/profile")
+        }
+        else{
+            dispatch(detailsOrder(props.match.params.id))
+        }
+        
         return () => {
         }
-    })
+    }, [successPay])
 
     const orderDetails = useSelector(state => state.orderDetails)
     
@@ -46,13 +55,14 @@ function OrderScreen(props){
                     <div>
                         <h3>Payment method</h3>
                         <div>
-                            {order.payment.paymentMethod}
+                            Payment method: {order.payment.paymentMethod}
                         </div>
-                    </div>
-                    <div>
+                        <br/>
+                        <div>
                         {
-                            order.payment.isPaid ? `Paid at ${order.payment.paidAt}` : 'Not paid' 
+                            order.isPaid ? `Paid at ${order.paidAt}` : 'Not paid' 
                         }
+                    </div>
                     </div>
                     <div>
                         <ul className="cart-list-container">

@@ -26,7 +26,7 @@ function CartScreen(props){
         if(productId){
             dispatch(addToCart(productId, quantity))
         }
-    }) // Run this event after the info was loaded inside the DOM
+    }, []) // Run this event after the info was loaded inside the DOM
 
     return (
         <div className="cart">

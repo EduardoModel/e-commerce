@@ -69,7 +69,8 @@ const payOrder = (order, paymentResult) => async (dispatch, getState) => {
         })
         const {userSignin:{userInfo}} = getState()
         const {data} = await Axios.put(`/api/orders/${order._id}/pay`,
-        paymentResult, {
+        paymentResult, 
+        {
             headers: {
                 'Authorization': `Bearer ${userInfo.token}`
             }

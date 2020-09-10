@@ -3,7 +3,7 @@ import thunk from "redux-thunk"
 import Cookie from 'js-cookie'
 import {productListReducer, productDetailsReducer, productSaveReducer, productDeleteReducer} from "./reducers/productReducers"
 import {cartReducer} from "./reducers/cartReducers"
-import { userSigninReducer, userRegisterReducer } from "./reducers/userReducers";
+import { userSigninReducer, userRegisterReducer, userUpdateReducer } from "./reducers/userReducers";
 import { orderCreateReducer, orderDetailsReducer, orderPayReducer } from "./reducers/orderReducers";
 
 // Retrieve the saved items inside the cookie
@@ -27,6 +27,7 @@ const reducer = combineReducers({
     cart: cartReducer,
     userSignin: userSigninReducer,
     userRegister: userRegisterReducer,
+    userUpdate: userUpdateReducer,
     productSave: productSaveReducer,
     productDelete: productDeleteReducer,
     orderCreate: orderCreateReducer,
