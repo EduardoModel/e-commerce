@@ -9,12 +9,12 @@ router.get('/:id', authenticate, async (req,res) => {
         const orderId = req.params.id
         const order = await Order.findById(orderId)
         if(order){
-            res.send(order)
+            return res.send(order)
         }
         throw `The order ${orderId} was not found!`
     } catch (error) {
-        res.status(404).send({
-            error
+        return res.status(404).send({
+            error: error.message
         })
     }
 })
@@ -34,13 +34,13 @@ router.post('/', authenticate, async (req, res) => {
     
         const newOrderCreated = await newOrder.save()
     
-        res.status(201).send({
+        return res.status(201).send({
             message: 'New order created successfully',
             data: newOrderCreated
         })
     } catch (error) {
-        res.status(401).send({
-            error
+        return res.status(401).send({
+            error: error.message
         })
     }
 })

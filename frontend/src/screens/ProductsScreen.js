@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
 import {useSelector, useDispatch} from 'react-redux'
-import {Link} from 'react-router-dom'
-import { Products, saveProduct, listProducts, deleteProduct } from "../actions/productActions";
+import { saveProduct, listProducts, deleteProduct } from "../actions/productActions";
 
 const ProductsScreen = (props) => {
     const [modalVisible, setModalVisible] = useState(false)
@@ -14,13 +13,12 @@ const ProductsScreen = (props) => {
     const [countInStock, setCountInStock] = useState('')
     const [description, setDescription] = useState('')
     const productList = useSelector(state => state.productList)
-    const {loading, products, error} = productList
+    const {products} = productList
 
     const productDelete = useSelector(state => state.productDelete) 
     const {
-        loading: loadingDelete,
-        success: successDelete,
-        error: errorDelete} = productDelete
+        success: successDelete
+    } = productDelete
 
     const productSave = useSelector(state => state.productSave) 
     const {

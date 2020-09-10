@@ -439,3 +439,7 @@ tbody>tr:nth-child(odd){
   color: #C04000;
   font-weight: bold;
 }
+
+.place-order-actions-payment > div{
+  width: 100%;
+}

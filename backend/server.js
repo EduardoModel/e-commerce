@@ -1,15 +1,11 @@
  import express from 'express'
  import data from './data'
- import dotenv from 'dotenv'
  import config from './config'
  import mongoose from 'mongoose'
  import bodyParser from 'body-parser'
  import userRoute from './routes/userRoute'
  import productRoute from './routes/productRoute'
  import orderRoute from './routes/orderRoute';
-
- // Fetch the enviroments variables from the file and set them into the code 
- dotenv.config()
 
  const mongodbUrl = config.MONGODB_URL
 
@@ -20,7 +16,6 @@
  }).catch((error) => {
      console.log(error.reason)
  })
-
 
  const app = express()
 
@@ -33,7 +28,7 @@
  app.use("/api/orders", orderRoute)
 
  app.get("/api/config/paypal", async (req, res) => {
-     res.send(config.PAYPAL_CLIENT_ID)
+    return res.send(config.PAYPAL_CLIENT_ID)
  })
 
 //  app.get('/api/products', (req, res) => {

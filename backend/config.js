@@ -1,3 +1,8 @@
+import dotenv from 'dotenv'
+
+// Fetch the enviroments variables from the file and set them into the code 
+dotenv.config()
+
 export default {
     MONGODB_URL: process.env.MONGODB_URL || 'mongodb://localhost/little-shop',
     JWT_SECRET: process.env.JWT_SECRET || 'bPZNXWT1NMfltdVsh8770MCxq0edknt57RIeDcbF',
