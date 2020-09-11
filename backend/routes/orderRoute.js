@@ -19,6 +19,30 @@ router.get('/:id', authenticate, async (req,res) => {
     }
 })
 
+router.get('/', authenticate, async (req,res) => {
+    try {
+        const userId = req.user._id
+        let orders = []
+        if(req.user.isAdmin){
+            orders = await Order.find({}).populate('user')
+        }
+        else{
+            orders = await Order.find({
+                user: userId
+            })
+        }
+        
+        if(orders){
+            return res.send(orders)
+        }
+        throw `This user doesn't have any orders!`
+    } catch (error) {
+        return res.status(404).send({
+            error: error.message
+        })
+    }
+})
+
 router.post('/', authenticate, async (req, res) => {
     try {
         const newOrder = new Order({
@@ -40,6 +64,21 @@ router.post('/', authenticate, async (req, res) => {
         })
     } catch (error) {
         return res.status(401).send({
+            error: error.message
+        })
+    }
+})
+
+router.delete('/:id', authenticate, isAdmin, async (req,res) => {
+    try {
+        const orderId = req.params.id
+        const deletedOrder = await Order.deleteOne({_id: orderId})
+        if(deletedOrder){
+            return res.send(deletedOrder)
+        }
+        throw `The order ${orderId} was not found!`
+    } catch (error) {
+        return res.status(404).send({
             error: error.message
         })
     }
