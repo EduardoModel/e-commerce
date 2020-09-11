@@ -4,7 +4,7 @@ import Cookie from 'js-cookie'
 import {productListReducer, productDetailsReducer, productSaveReducer, productDeleteReducer} from "./reducers/productReducers"
 import {cartReducer} from "./reducers/cartReducers"
 import { userSigninReducer, userRegisterReducer, userUpdateReducer } from "./reducers/userReducers";
-import { orderCreateReducer, orderDetailsReducer, orderPayReducer } from "./reducers/orderReducers";
+import { orderCreateReducer, orderDetailsReducer, orderPayReducer, myOrderListReducer, orderDeleteReducer, orderListReducer } from "./reducers/orderReducers";
 
 // Retrieve the saved items inside the cookie
 const cartItems = Cookie.getJSON('cartItems') || []
@@ -32,7 +32,10 @@ const reducer = combineReducers({
     productDelete: productDeleteReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
-    orderPay: orderPayReducer
+    orderPay: orderPayReducer,
+    myOrderList: myOrderListReducer,
+    orderDelete: orderDeleteReducer,
+    orderList: orderListReducer
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose

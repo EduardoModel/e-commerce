@@ -1,45 +1,86 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import {Link} from "react-router-dom"
 import {useSelector, useDispatch} from 'react-redux'
 import { listProducts } from "../actions/productActions";
 
 const HomeScreen = (props) => {
+    const category = props.match.params.id || '' 
     const productList = useSelector(state => state.productList)
     const {products, loading, error} = productList
+    
+    const [searchKeyword, setSearchKeyword] = useState('')
+    const [sortOrder, setSortOrder] = useState('')
+
     const dispatch = useDispatch()
     
     useEffect(() => {
-        dispatch(listProducts())
-    }, [])
+        dispatch(listProducts(category))
+    }, [category])
+
+    const submitHander = (e) => {
+        e.preventDefault()
+        dispatch(listProducts(category, searchKeyword))
+    }
+
+    const sortOrderHandler = (e) => {
+        const selectedSortOrder = e.target.value
+        setSortOrder(selectedSortOrder)
+        dispatch(listProducts(category, searchKeyword, selectedSortOrder))
+    }
 
     return (
-        loading ? <div>Loading...</div> :
-        error ? <div>{error}</div> :
-        <ul className="products">
+        <div >
             {
-                products.map((product) => 
-                    <li key={product._id}>
-                        <div className="product">
-                            <Link to={`/products/${product._id}`}>
-                                <img className="product-image" src={product.image} alt="product"/>
-                            </Link>
-                            <div className="product-name">
-                                <Link to={`/products/${product._id}`}>{product.name}</Link>
-                            </div>
-                            <div className="product-brand">
-                                {product.brand}
-                            </div>
-                            <div className="product-price">
-                                {product.price}
-                            </div>
-                            <div className="product-rating">
-                                {product.rating} ({product.numReviews})
-                            </div>
-                        </div>
-                    </li>
-                )
+               category &&
+                <h2>{category}</h2>
             }
-        </ul>
+            <ul className="filter">
+                <li>
+                    <form onSubmit={submitHander}>
+                        <input type="text" name="searchKeyword" onChange={(e) => setSearchKeyword(e.target.value)}/>
+                        <button type="submit">Search</button>
+                    </form>
+                </li>
+                <li>
+                    Sort By
+                    {' '}
+                    <select name="sortOrder" onChange={(e) => sortOrderHandler(e)}>
+                        <option value="">Newest</option>
+                        <option value="lowest">Lowest price</option>
+                        <option value="highest">Highest price</option>
+                    </select>
+                </li>
+            </ul>
+            {
+                loading ? <div>Loading...</div> :
+                error ? <div>{error}</div> :
+                <ul className="products">
+                    {
+                        products.map((product) => 
+                            <li key={product._id}>
+                                <div className="product">
+                                    <Link to={`/products/${product._id}`}>
+                                        <img className="product-image" src={product.image} alt="product"/>
+                                    </Link>
+                                    <div className="product-name">
+                                        <Link to={`/products/${product._id}`}>{product.name}</Link>
+                                    </div>
+                                    <div className="product-brand">
+                                        {product.brand}
+                                    </div>
+                                    <div className="product-price">
+                                        {product.price}
+                                    </div>
+                                    <div className="product-rating">
+                                        {product.rating} ({product.numReviews})
+                                    </div>
+                                </div>
+                            </li>
+                        )
+                    }
+                </ul>
+            }
+        </div>
     )
 }
 

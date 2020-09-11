@@ -12,7 +12,7 @@ const OrderScreen = (props) => {
 
     useEffect(() => {
         if(successPay){
-            props.history.push("/profile")
+            // props.history.push("/profile")
         }
         else{
             dispatch(detailsOrder(props.match.params.id))

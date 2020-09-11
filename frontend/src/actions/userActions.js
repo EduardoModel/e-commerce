@@ -80,7 +80,7 @@ const logout = () => (dispatch) => {
     })
 }
 
-const update = (userId, name, email, password) => async (dispatch, getState) => {
+const update = ({userId, name, email, password}) => async (dispatch, getState) => {
     dispatch({
         type: USER_UPDATE_REQUEST,
         payload: {

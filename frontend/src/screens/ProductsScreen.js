@@ -24,7 +24,8 @@ const ProductsScreen = (props) => {
     const {
         loading: loadingSave,
         success: successSave,
-        error: errorSave} = productSave
+        error: errorSave
+    } = productSave
 
     const dispatch = useDispatch()
 

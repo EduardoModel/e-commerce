@@ -149,6 +149,22 @@ a:hover{
   height: 100%;
 }
 
+.categories{
+  /* display: flex; */
+  padding: 0;
+  list-style-type: none;
+}
+
+.categories a{
+  display: flex;
+  list-style-type: none;
+  padding: 0.6rem;
+}
+
+.categories a:hover{
+  background-color: #C0C0C0;
+}
+
 .sidebar.open{
   transform: translateX(0);
 }
@@ -457,3 +473,50 @@ tbody>tr:nth-child(odd){
 .profile-orders{
   flex: 3 1 60rem;
 }
+
+/* Admin */
+.dropdown{
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-content{
+  position: absolute;
+  display: none;
+  right: 0;
+  padding: 1rem;
+  list-style-type: none;
+  z-index: 100000;
+  background-color: #203040;
+  margin: 0;
+  /* margin-right: 0; */
+  margin-right: -5px;
+  margin-top: 0.4rem;
+}
+
+.dropdown-content li{
+  margin: 1rem;
+}
+
+.dropdown:hover .dropdown-content{
+  display: block;
+}
+
+/* Filter */
+.filter{
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 1rem auto;
+  max-width: 50rem;
+  justify-content: space-between;
+}
+
+.filter input,
+.filter button,
+.filter select{
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: .1rem #C0C0C0 solid;
+  font-size: 1.6rem;
+} 

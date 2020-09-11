@@ -13,6 +13,7 @@ import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
 import OrderScreen from './screens/OrderScreen';
 import ProfileScreen from './screens/ProfileScreen';
+import OrdersScreen from './screens/OrdersScreen';
 
 function App() {
     const userSignin = useSelector(state => state.userSignin)
@@ -38,9 +39,25 @@ function App() {
                     </div>
                     <div className="header-links">
                         <a href="/cart">Shopping Cart</a>
-                        {userInfo ?
-                        <Link to='/profile'>{userInfo.name}</Link> :
-                        <Link to='/signin'>Sign In</Link>
+                        {
+                            userInfo ?
+                            <Link to='/profile'>{userInfo.name}</Link> :
+                            <Link to='/signin'>Sign In</Link>
+                        }
+                        {
+                            userInfo && userInfo.isAdmin && (
+                                <div className="dropdown">
+                                    <a href="#">Admin</a>
+                                    <ul className="dropdown-content">
+                                        <li>
+                                            <Link to='/order'>Orders</Link>
+                                        </li>
+                                        <li>
+                                            <Link to='/products'>Products</Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )   
                         }
                     </div>
                 </header>
@@ -49,12 +66,18 @@ function App() {
                     <button className="sidebar-close-button" onClick={closeMenu}>
                         x
                     </button>
-                    <ul>
+                    <ul className="categories">
                         <li>
-                            <a href="index.html">Product Type 1</a>
+                            <Link to="/category/big">Big products</Link>
                         </li>
                         <li>
-                            <a href="index.html">Product Type 2</a>
+                            <Link to="/category/normal">Normal products</Link>
+                        </li>
+                        <li>
+                            <Link to="/category/small">Small products</Link>
+                        </li>
+                        <li>
+                            <Link to="/category/Others">Other products</Link>
                         </li>
                     </ul>
                 </aside>
@@ -63,6 +86,7 @@ function App() {
                         <Route path="/profile" exact={true} component={ProfileScreen}/>
                         <Route path="/products/:id" exact={true} component={ProductScreen}/>
                         <Route path="/order/:id" exact={true} component={OrderScreen}/>
+                        <Route path="/order" exact={true} component={OrdersScreen}/>
                         <Route path="/products" exact={true} component={ProductsScreen}/>
                         <Route path="/payment" component={PaymentScreen}/>
                         <Route path="/place-order" component={PlaceOrderScreen}/>
@@ -70,6 +94,7 @@ function App() {
                         <Route path="/shipping" component={ShippingScreen}/>
                         <Route path="/register" component={RegisterScreen}/>
                         <Route path="/cart/:id?" component={CartScreen}/>
+                        <Route path="/category/:id?" component={HomeScreen}/>
                         <Route path="/" exact={true} component={HomeScreen}/>
                     </div>
                 </main>
