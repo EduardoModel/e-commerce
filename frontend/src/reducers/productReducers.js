@@ -10,7 +10,7 @@ import {
     PRODUCT_SAVE_FAIL,
     PRODUCT_DELETE_REQUEST,
     PRODUCT_DELETE_SUCCESS,
-    PRODUCT_DELETE_FAIL
+    PRODUCT_DELETE_FAIL, PRODUCT_REVIEW_SAVE_REQUEST, PRODUCT_REVIEW_SAVE_SUCCESS, PRODUCT_REVIEW_SAVE_FAIL, PRODUCT_REVIEW_SAVE_RESET
 } from "../constants/productConstants";
 
 
@@ -53,7 +53,7 @@ const productDeleteReducer = (state = {product: {}}, action) => {
     }
 }
 
-const productDetailsReducer = (state = {product: {}}, action) => {
+const productDetailsReducer = (state = {product: { reviews: [] }}, action) => {
     switch(action.type){
         case PRODUCT_DETAILS_REQUEST:
             return {loading: true}
@@ -66,9 +66,35 @@ const productDetailsReducer = (state = {product: {}}, action) => {
     }
 }
 
+const productReviewSaveReducer = (state={}, action) => {
+    switch(action.type){
+        case PRODUCT_REVIEW_SAVE_REQUEST:
+            return {
+                loading: true
+            }
+        case PRODUCT_REVIEW_SAVE_SUCCESS:
+            return {
+                loading: false,
+                review: action.payload,
+                success: true
+            }
+        case PRODUCT_REVIEW_SAVE_FAIL:
+            return {
+                loading: false,
+                error: action.payload,
+                success: false
+            }
+        case PRODUCT_REVIEW_SAVE_RESET:
+            return {}
+        default:
+            return state
+    }
+}
+
 export {
     productListReducer,
     productDetailsReducer,
     productSaveReducer,
-    productDeleteReducer
+    productDeleteReducer,
+    productReviewSaveReducer
 }

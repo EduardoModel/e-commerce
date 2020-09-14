@@ -35,7 +35,7 @@ function App() {
                         <button onClick={openMenu}>
                             &#9776;
                         </button>
-                        <Link to="/">littleShop</Link>
+                        <Link to="/">Shopzinha</Link>
                     </div>
                     <div className="header-links">
                         <a href="/cart">Shopping Cart</a>

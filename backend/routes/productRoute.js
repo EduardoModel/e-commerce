@@ -102,4 +102,34 @@ router.delete('/:id', authenticate , isAdmin, async (req,res) => {
     return res.status(403).send({error: `Product with the id: ${productId} was not successfuly deleted`})
 })
 
+router.post('/:id/reviews', authenticate, async (req, res) => {
+    try {
+        const productId = req.params.id
+        const product = await Product.findById(productId)
+        if(product){
+            const review = {
+                name: req.body.name,
+                rating: Number(req.body.rating),
+                comment: req.body.comment
+            }
+            product.reviews.push(review)
+            product.numReviews = product.reviews.length
+            product.rating = (product.reviews.reduce((a, c) => c.rating + a, 0) / product.reviews.length)
+            const reviewedProduct = await product.save()
+            return res.status(201).send({
+                message: "Product review saved successfully",
+                data: reviewedProduct.reviews[reviewedProduct.reviews.length-1]
+            })
+        }
+        throw "Product not found"
+    }
+    catch (error) {
+        return res.status(404).send({
+            error: error.message
+        })
+    }
+
+    
+})
+
 export default router

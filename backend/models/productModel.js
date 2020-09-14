@@ -1,5 +1,23 @@
 import mongoose from "mongoose"
 
+const reviewSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    rating:{
+        type: Number,
+        default: 0
+    },
+    comment:{
+        type: String,
+        required: true
+    }
+},
+{
+    timestamps: true
+})
+
 // Defines what will be saved from the product
 const productSchema = new mongoose.Schema({
     name: {
@@ -41,8 +59,8 @@ const productSchema = new mongoose.Schema({
         type: Number,
         default: 0,
         required: true
-    }
-    
+    },
+    reviews: [reviewSchema]
 })
 
 // The name of the collection to be saved into the db, following the passed schema

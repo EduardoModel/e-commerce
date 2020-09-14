@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import {Link} from "react-router-dom"
 import {useSelector, useDispatch} from 'react-redux'
 import { listProducts } from "../actions/productActions";
+import Rating from "../components/Rating";
 
 const HomeScreen = (props) => {
     const category = props.match.params.id || '' 
@@ -72,7 +73,7 @@ const HomeScreen = (props) => {
                                         {product.price}
                                     </div>
                                     <div className="product-rating">
-                                        {product.rating} ({product.numReviews})
+                                        <Rating value={product.rating} text={`${product.numReviews} reviews`}/>
                                     </div>
                                 </div>
                             </li>
