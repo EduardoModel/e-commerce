@@ -13,6 +13,7 @@
      useUnifiedTopology: true,
      useCreateIndex: true
  }).catch((error) => {
+     console.log(error)
      console.log(error.reason)
  })
 
