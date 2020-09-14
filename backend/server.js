@@ -45,6 +45,6 @@
 //     }
 //  })
 
- app.listen(5000, () => {
+ app.listen(config.PORT, () => {
      console.log("Server starded at localhost:5000")
  })
