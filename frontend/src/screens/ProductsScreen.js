@@ -76,7 +76,7 @@ const ProductsScreen = (props) => {
         const bodyFormData = new FormData()
         bodyFormData.append('image', file)
 
-        Axios.post("/api/uploads", bodyFormData, 
+        Axios.post("/api/uploads/s3", bodyFormData, 
         {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -138,8 +138,8 @@ const ProductsScreen = (props) => {
                             <label htmlFor="image">
                                 Image
                             </label>
-                            <input type="text" name="image" value={image} id="image" onChange={(e) => setImage(e.target.value)}></input>
-                            <input type="file" onChange={uploadFileHandler}/>
+                            <input disabled="true" type="text" name="image" value={image} id="image" onChange={(e) => setImage(e.target.value)}></input>
+                            <input disabled={uploading}type="file" onChange={uploadFileHandler}/>
                             {uploading && <div>Uploading...</div>} 
                         </li>
                         <li>
