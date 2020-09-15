@@ -1,6 +1,7 @@
 import express from "express"
 import User from '../models/userModel'
 import { getToken, authenticate } from "../util";
+import config from './../config'
 
 const router = express.Router()
 
@@ -91,9 +92,9 @@ router.get('/createadmin', async (req, res) => {
     try{
         // Define a new user to be saved into the databse
         const user = new User({
-            name: "Eduardo",
-            email: "edu_model@hotmail.com",
-            password: "123456789",
+            name: config.ADMIN_USER_NAME,
+            email: config.ADMIN_EMAIL,
+            password: config.ADMIN_PASSWORD,
             isAdmin: true
         })
 

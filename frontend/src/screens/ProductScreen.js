@@ -26,7 +26,6 @@ const ProductScreen = (props) => {
 
     useEffect(() => {
         if(productSaveSuccess){
-            alert('Review submitted successfully')
             setRating(0)
             setComment("")
             dispatch({type: PRODUCT_REVIEW_SAVE_RESET})

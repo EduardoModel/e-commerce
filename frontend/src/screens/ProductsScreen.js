@@ -1,3 +1,4 @@
+import Axios from "axios";
 import React, { useEffect, useState } from "react"
 import {useSelector, useDispatch} from 'react-redux'
 import { saveProduct, listProducts, deleteProduct } from "../actions/productActions";
@@ -12,6 +13,12 @@ const ProductsScreen = (props) => {
     const [category, setCategory] = useState('')
     const [countInStock, setCountInStock] = useState('')
     const [description, setDescription] = useState('')
+
+    const userSignin = useSelector(state => state.userSignin)
+    const {userInfo} = userSignin
+
+    const [uploading, setUploading] = useState(false)
+
     const productList = useSelector(state => state.productList)
     const {products} = productList
 
@@ -62,6 +69,28 @@ const ProductsScreen = (props) => {
         dispatch(deleteProduct(product._id))
     }
 
+    const uploadFileHandler = (e) => {
+        setUploading(true)
+
+        const file = e.target.files[0]
+        const bodyFormData = new FormData()
+        bodyFormData.append('image', file)
+
+        Axios.post("/api/uploads", bodyFormData, 
+        {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Authorization': `Bearer ${userInfo.token}`
+            }
+        }).then((response) => {
+            setImage(response.data)
+            setUploading(false)
+        }).catch((error) => {
+            console.log(error)
+            setUploading(false)
+        })
+    }
+
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch(saveProduct({
@@ -110,6 +139,8 @@ const ProductsScreen = (props) => {
                                 Image
                             </label>
                             <input type="text" name="image" value={image} id="image" onChange={(e) => setImage(e.target.value)}></input>
+                            <input type="file" onChange={uploadFileHandler}/>
+                            {uploading && <div>Uploading...</div>} 
                         </li>
                         <li>
                             <label htmlFor="brand">

@@ -70,7 +70,7 @@ const HomeScreen = (props) => {
                                         {product.brand}
                                     </div>
                                     <div className="product-price">
-                                        {product.price}
+                                        $ {product.price}
                                     </div>
                                     <div className="product-rating">
                                         <Rating value={product.rating} text={`${product.numReviews} reviews`}/>
