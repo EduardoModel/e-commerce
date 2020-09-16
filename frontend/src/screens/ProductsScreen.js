@@ -185,7 +185,7 @@ const ProductsScreen = (props) => {
                             <th>Price</th>
                             <th>Category</th>
                             <th>Brand</th>
-                            <th>Action</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>

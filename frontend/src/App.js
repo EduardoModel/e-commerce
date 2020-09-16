@@ -68,13 +68,13 @@ function App() {
                     </button>
                     <ul className="categories">
                         <li>
-                            <Link to="/category/big">Big products</Link>
+                            <Link to="/category/Big">Big products</Link>
                         </li>
                         <li>
-                            <Link to="/category/normal">Normal products</Link>
+                            <Link to="/category/Normal">Normal products</Link>
                         </li>
                         <li>
-                            <Link to="/category/small">Small products</Link>
+                            <Link to="/category/Small">Small products</Link>
                         </li>
                         <li>
                             <Link to="/category/Others">Other products</Link>
@@ -93,7 +93,7 @@ function App() {
                         <Route path="/signin" component={SigninScreen}/>
                         <Route path="/shipping" component={ShippingScreen}/>
                         <Route path="/register" component={RegisterScreen}/>
-                        <Route path="/cart/:id?" component={CartScreen}/>
+                        <Route path="/cart/:id?" exact={true} component={CartScreen}/>
                         <Route path="/category/:id?" component={HomeScreen}/>
                         <Route path="/" exact={true} component={HomeScreen}/>
                     </div>

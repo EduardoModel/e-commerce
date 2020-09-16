@@ -128,8 +128,6 @@ router.post('/:id/reviews', authenticate, async (req, res) => {
             error: error.message
         })
     }
-
-    
 })
 
 export default router

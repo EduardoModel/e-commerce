@@ -43,8 +43,7 @@ const OrderScreen = (props) => {
                     <div>
                         <h3>Shipping info</h3>
                         <div>
-                            {order.shipping.address}, {order.shipping.city},
-                            {order.shipping.postalCode}, {order.shipping.country}
+                            {order.shipping.address}, {order.shipping.city}, {order.shipping.postalCode}, {order.shipping.country}
                         </div>
                     </div>
                     <div>

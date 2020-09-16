@@ -33,7 +33,7 @@ const HomeScreen = (props) => {
         <div >
             {
                category &&
-                <h2>{category}</h2>
+                <h2>{ category}</h2>
             }
             <ul className="filter">
                 <li>
